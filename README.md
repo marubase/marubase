@@ -1,5 +1,10 @@
 # Marubase
 
+## Table of contents
+- [Marubase](#marubase)
+  - [Table of contents](#table-of-contents)
+  - [License](#license)
+
 ## License
 ```
 MIT License
