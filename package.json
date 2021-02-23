@@ -1,5 +1,7 @@
 {
   "name": "@marubase/marubase",
   "private": true,
-  "devDependencies": {}
+  "devDependencies": {
+    "lerna": "^3.22.1"
+  }
 }
