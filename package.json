@@ -1,6 +1,7 @@
 {
   "name": "@marubase/marubase",
   "private": true,
+  "license": "MIT",
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@tsconfig/recommended": "^1.0.1",
