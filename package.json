@@ -2,14 +2,20 @@
   "name": "@marubase/marubase",
   "private": true,
   "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@tsconfig/recommended": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^4.15.2",
     "@typescript-eslint/parser": "^4.15.2",
+    "chai": "^4.3.0",
     "eslint": "^7.20.0",
     "eslint-config-prettier": "^8.0.0",
     "eslint-plugin-prettier": "^3.3.1",
     "lerna": "^3.22.1",
+    "mocha": "^8.3.0",
+    "nyc": "^15.1.0",
     "prettier": "^2.2.1",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^9.1.1",
     "typescript": "^4.1.5"
   }
 }
