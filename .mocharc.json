@@ -1,5 +1,5 @@
 {
   "extension": ["ts"],
-  "reporter": ["dot"],
+  "reporter": ["spec"],
   "require": ["ts-node/register", "source-map-support/register"]
 }
