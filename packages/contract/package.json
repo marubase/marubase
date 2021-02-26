@@ -1,0 +1,13 @@
+{
+  "name": "@marubase/contract",
+  "version": "0.0.0",
+  "type": "commonjs",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
