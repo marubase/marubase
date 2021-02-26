@@ -2,5 +2,12 @@
   "editor.codeActionsOnSave": {
     "source.fixAll": true,
     "source.organizeImports": true
+  },
+  "files.exclude": {
+    "packages/**/.nyc_output": true,
+    "packages/**/*.d.ts": true,
+    "packages/**/*.d.ts.map": true,
+    "packages/**/*.js": true,
+    "packages/**/*.js.map": true
   }
 }
