@@ -6,7 +6,8 @@ module.exports = function (configuration) {
     autoWatch: false,
     browsers: ["Chromium", "Firefox", "WebKit"],
     files: [path.resolve(process.cwd(), "index.spec.ts")],
-    frameworks: ["mocha"],
+    frameworks: ["mocha", "webpack"],
+    logLevel: configuration.LOG_WARN,
     plugins: [
       "karma-mocha",
       "karma-sourcemap-loader",

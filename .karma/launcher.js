@@ -16,7 +16,7 @@ class PlaywrightBrowser extends EventEmitter {
 
   async start(url) {
     this._instance = await this._browser.launch({ headless: true });
-    this._instance.once("close", () => this.emit("done"));
+    this._instance.once("disconnected", () => this.emit("done"));
 
     const page = await this._instance.newPage();
     await page.goto(`${url}?id=${this.id}`);
