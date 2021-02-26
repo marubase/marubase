@@ -15,7 +15,7 @@ interface TestFn {
 
 function toBufferFnHelper(asc: boolean): ToBufferFn {
   return (hex: string): Uint8Array => {
-    const bytes = hex.match(/.{1,2}/g).map((b) => parseInt(b, 16));
+    const bytes = (hex.match(/.{1,2}/g) || []).map((b) => parseInt(b, 16));
     const buffer = new Uint8Array(bytes);
     return !asc ? buffer.map((b) => b ^ 255) : buffer;
   };

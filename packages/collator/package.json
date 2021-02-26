@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "test": "npm run test:nodejs",
+    "test:browser": "karma start ../../karma.conf.js",
     "test:nodejs": "nyc mocha index.spec.ts"
   },
   "dependencies": {
