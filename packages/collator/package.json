@@ -1,0 +1,18 @@
+{
+  "name": "@marubase/collator",
+  "version": "0.0.0",
+  "type": "commonjs",
+  "main": "./index.js",
+  "types": "./index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "npm run test:nodejs",
+    "test:nodejs": "nyc mocha index.spec.ts"
+  },
+  "dependencies": {
+    "@marubase/contract": "^0.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
