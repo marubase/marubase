@@ -26,8 +26,8 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
         return this.fromBinary(content);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
-        const inversed = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        const content = inversed.map((b) => b ^ 255);
+        const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
+        const content = inverted.map((b) => b ^ 255);
         return -1 * this.fromBinary(content);
       }
     } else {
@@ -36,8 +36,8 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
         return Number.NaN;
       } else if (DPNUM[0] === binary[0]) {
         const { buffer, byteLength, byteOffset } = binary;
-        const inversed = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        const content = inversed.map((b) => b ^ 255);
+        const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
+        const content = inverted.map((b) => b ^ 255);
         return this.fromBinary(content);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
@@ -62,18 +62,18 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
         return this.append(binary, APNUM, content);
       } else {
         const content = this.toBinary(-1 * <number>meta.value);
-        const inversed = content.map((b) => b ^ 255);
-        return this.append(binary, ANNUM, inversed);
+        const inverted = content.map((b) => b ^ 255);
+        return this.append(binary, ANNUM, inverted);
       }
     } else {
       const { DNAN, DPNUM, DNNUM } = this.table;
       if (Number.isNaN(meta.value)) {
-        const inversed = new Uint8Array(8).fill(255);
-        return this.append(binary, DNAN, inversed);
+        const inverted = new Uint8Array(8).fill(255);
+        return this.append(binary, DNAN, inverted);
       } else if (<number>meta.value >= 0) {
         const content = this.toBinary(<number>meta.value);
-        const inversed = content.map((b) => b ^ 255);
-        return this.append(binary, DPNUM, inversed);
+        const inverted = content.map((b) => b ^ 255);
+        return this.append(binary, DPNUM, inverted);
       } else {
         const content = this.toBinary(-1 * <number>meta.value);
         return this.append(binary, DNNUM, content);

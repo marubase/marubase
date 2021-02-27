@@ -9,12 +9,13 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
   }
 
   public decode(binary: Uint8Array): ValueContract {
-    const { ABSTART } = this.table;
-    if (ABSTART[0] === binary[0]) {
-      const content = new Uint8Array(binary.buffer, 1, binary.length - 2);
+    if (binary[0] < 128) {
+      const { buffer, byteLength, byteOffset } = binary;
+      const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
       return content;
     } else {
-      const inverted = new Uint8Array(binary.buffer, 1, binary.length - 2);
+      const { buffer, byteLength, byteOffset } = binary;
+      const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
       const content = inverted.map((b) => b ^ 255);
       return content;
     }
@@ -27,10 +28,12 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
   public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {
     if (meta.asc) {
       const { ABSTART, ABEND } = this.table;
-      return this.append(binary, ABSTART, <Uint8Array>meta.value, ABEND);
+      const content = <Uint8Array>meta.value;
+      return this.append(binary, ABSTART, content, ABEND);
     } else {
       const { DBSTART, DBEND } = this.table;
-      const inverted = (<Uint8Array>meta.value).map((b) => b ^ 255);
+      const content = <Uint8Array>meta.value;
+      const inverted = content.map((b) => b ^ 255);
       return this.append(binary, DBSTART, inverted, DBEND);
     }
   }

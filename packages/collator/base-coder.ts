@@ -6,22 +6,23 @@ export abstract class BaseCoder {
   public append(binary: Uint8Array, ...items: Uint8Array[]): Uint8Array {
     let buffer = new Uint8Array(binary.buffer);
 
-    let itemByteLength = 0;
-    const itemLength = items.length;
-    for (let index = 0; index < itemLength; index++) {
-      itemByteLength += items[index].length;
+    let itemsByteLength = 0;
+    const itemsLength = items.length;
+    for (let index = 0; index < itemsLength; index++) {
+      itemsByteLength += items[index].length;
     }
 
-    while (binary.byteOffset + itemByteLength > buffer.length) {
+    while (binary.byteOffset + itemsByteLength > buffer.length) {
       let newLength = buffer.length * 2 || 1;
-      while (binary.byteOffset + itemByteLength > newLength) newLength *= 2;
+      while (binary.byteOffset + itemsByteLength > newLength) newLength *= 2;
+
       const newBuffer = new Uint8Array(newLength);
       newBuffer.set(buffer);
       buffer = newBuffer;
     }
 
     let itemOffset = binary.byteOffset;
-    for (let index = 0; index < itemLength; index++) {
+    for (let index = 0; index < itemsLength; index++) {
       buffer.set(items[index], itemOffset);
       itemOffset += items[index].length;
     }
@@ -29,7 +30,7 @@ export abstract class BaseCoder {
     return new Uint8Array(
       buffer.buffer,
       binary.byteOffset,
-      binary.length + itemByteLength
+      binary.length + itemsByteLength
     );
   }
 }
