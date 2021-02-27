@@ -1,5 +1,5 @@
 module.exports = {
-  exclude: ["**/*.helper.ts", "**/*.spec.ts"],
+  exclude: ["**/*.spec.ts", "**/*.spec-helper.ts"],
   extends: "@istanbuljs/nyc-config-typescript",
   reporter: ["html", "lcov", "text"],
 };

@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { BaseCoder } from "./base-coder";
 import { CodeTable } from "./code-table";
-import { mirrorRun } from "./mirror-run.helper";
+import { mirrorRun } from "./mirror-run.spec-helper";
 
 class TestCoder extends BaseCoder {}
 

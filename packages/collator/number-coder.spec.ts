@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { CodeTable } from "./code-table";
 import { CoderInterface } from "./coder.interface";
-import { mirrorRun } from "./mirror-run.helper";
+import { mirrorRun } from "./mirror-run.spec-helper";
 import { NumberCoder } from "./number-coder";
 
 mirrorRun((asc, toBuffer, toMeta) => {

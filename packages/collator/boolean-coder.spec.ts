@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { BooleanCoder } from "./boolean-coder";
 import { CodeTable } from "./code-table";
 import { CoderInterface } from "./coder.interface";
-import { mirrorRun } from "./mirror-run.helper";
+import { mirrorRun } from "./mirror-run.spec-helper";
 
 mirrorRun((asc, toBuffer, toMeta) => {
   describe(`BooleanCoder (${asc ? "asc" : "desc"})`, () => {

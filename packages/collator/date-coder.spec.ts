@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { CodeTable } from "./code-table";
 import { CoderInterface } from "./coder.interface";
 import { DateCoder } from "./date-coder";
-import { mirrorRun } from "./mirror-run.helper";
+import { mirrorRun } from "./mirror-run.spec-helper";
 
 mirrorRun((asc, toBuffer, toMeta) => {
   describe(`DateCoder (${asc ? "asc" : "desc"})`, () => {
