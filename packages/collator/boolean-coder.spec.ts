@@ -57,7 +57,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
     });
 
-    describe("#encodable(value)", () => {
+    describe("#encodable(meta)", () => {
       context("when given false value", () => {
         it("should returns true", () => {
           const value = false;
@@ -84,7 +84,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
     });
 
-    describe("#encode(value)", () => {
+    describe("#encode(binary, meta)", () => {
       context("when given false value", () => {
         it("should returns false binary", () => {
           const buffer = new ArrayBuffer(8);

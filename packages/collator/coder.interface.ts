@@ -5,7 +5,7 @@ export interface CoderInterface {
 
   decode(binary: Uint8Array): ValueContract;
 
-  encodable(value: MetaValueContract): boolean;
+  encodable(meta: MetaValueContract): boolean;
 
-  encode(binary: Uint8Array, value: MetaValueContract): Uint8Array;
+  encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array;
 }
