@@ -33,4 +33,17 @@ export abstract class BaseCoder {
       binary.length + itemsByteLength
     );
   }
+
+  public toBinary(value: number): Uint8Array {
+    const binary = new Uint8Array(8);
+    const view = new DataView(binary.buffer);
+    view.setFloat64(0, value, false);
+    return binary;
+  }
+
+  public toNumber(binary: Uint8Array): number {
+    const { buffer, byteLength, byteOffset } = binary;
+    const view = new DataView(buffer, byteOffset, byteLength);
+    return view.getFloat64(0, false);
+  }
 }

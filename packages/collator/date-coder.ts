@@ -19,13 +19,13 @@ export class DateCoder extends BaseCoder implements CoderInterface {
       if (APDATE[0] === binary[0]) {
         const { buffer, byteLength, byteOffset } = binary;
         const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        const epoch = this.fromBinary(content);
+        const epoch = this.toNumber(content);
         return new Date(epoch);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
         const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
         const content = inverted.map((b) => b ^ 255);
-        const epoch = -1 * this.fromBinary(content);
+        const epoch = -1 * this.toNumber(content);
         return new Date(epoch);
       }
     } else {
@@ -34,12 +34,12 @@ export class DateCoder extends BaseCoder implements CoderInterface {
         const { buffer, byteLength, byteOffset } = binary;
         const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
         const content = inverted.map((b) => b ^ 255);
-        const epoch = this.fromBinary(content);
+        const epoch = this.toNumber(content);
         return new Date(epoch);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
         const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        const epoch = -1 * this.fromBinary(content);
+        const epoch = -1 * this.toNumber(content);
         return new Date(epoch);
       }
     }
@@ -72,18 +72,5 @@ export class DateCoder extends BaseCoder implements CoderInterface {
         return this.append(binary, DNDATE, content);
       }
     }
-  }
-
-  public fromBinary(binary: Uint8Array): number {
-    const { buffer, byteLength, byteOffset } = binary;
-    const view = new DataView(buffer, byteOffset, byteLength);
-    return view.getFloat64(0, false);
-  }
-
-  public toBinary(value: number): Uint8Array {
-    const binary = new Uint8Array(8);
-    const view = new DataView(binary.buffer);
-    view.setFloat64(0, value, false);
-    return binary;
   }
 }

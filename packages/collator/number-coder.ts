@@ -23,12 +23,12 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
       } else if (APNUM[0] === binary[0]) {
         const { buffer, byteLength, byteOffset } = binary;
         const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        return this.fromBinary(content);
+        return this.toNumber(content);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
         const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
         const content = inverted.map((b) => b ^ 255);
-        return -1 * this.fromBinary(content);
+        return -1 * this.toNumber(content);
       }
     } else {
       const { DNAN, DPNUM } = this.table;
@@ -38,11 +38,11 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
         const { buffer, byteLength, byteOffset } = binary;
         const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
         const content = inverted.map((b) => b ^ 255);
-        return this.fromBinary(content);
+        return this.toNumber(content);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
         const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        return -1 * this.fromBinary(content);
+        return -1 * this.toNumber(content);
       }
     }
   }
@@ -79,18 +79,5 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
         return this.append(binary, DNNUM, content);
       }
     }
-  }
-
-  public fromBinary(binary: Uint8Array): number {
-    const { buffer, byteLength, byteOffset } = binary;
-    const view = new DataView(buffer, byteOffset, byteLength);
-    return view.getFloat64(0, false);
-  }
-
-  public toBinary(value: number): Uint8Array {
-    const binary = new Uint8Array(8);
-    const view = new DataView(binary.buffer);
-    view.setFloat64(0, value, false);
-    return binary;
   }
 }
