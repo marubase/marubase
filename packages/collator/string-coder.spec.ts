@@ -74,7 +74,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = "0d7465737402".padEnd(8 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(8 * 2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
