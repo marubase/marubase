@@ -72,7 +72,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
 
     describe("#decode(binary)", () => {
       context("when given -Infinity binary", () => {
-        it("should returns -Infinity binary", () => {
+        it("should returns -Infinity value", () => {
           const hex = "08800fffffffffffff";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);

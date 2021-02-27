@@ -6,7 +6,7 @@ import { mirrorRun } from "./mirror-run.helper";
 class TestCoder extends BaseCoder {}
 
 mirrorRun((asc, toBuffer) => {
-  describe(`BaseCoder ({${asc ? "asc" : "desc"}})`, () => {
+  describe(`BaseCoder (${asc ? "asc" : "desc"})`, () => {
     let coder: BaseCoder;
     beforeEach(() => {
       coder = new TestCoder(CodeTable);
