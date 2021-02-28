@@ -12,16 +12,18 @@ export abstract class BaseCoder {
       itemsByteLength += items[index].length;
     }
 
-    while (binary.byteOffset + itemsByteLength > buffer.length) {
+    const binaryByteLength =
+      binary.byteOffset + binary.byteLength + itemsByteLength;
+    while (binaryByteLength > buffer.length) {
       let newLength = buffer.length * 2 || 1;
-      while (binary.byteOffset + itemsByteLength > newLength) newLength *= 2;
+      while (binaryByteLength > newLength) newLength *= 2;
 
       const newBuffer = new Uint8Array(newLength);
       newBuffer.set(buffer);
       buffer = newBuffer;
     }
 
-    let itemOffset = binary.byteOffset;
+    let itemOffset = binary.byteOffset + binary.byteLength;
     for (let index = 0; index < itemsLength; index++) {
       buffer.set(items[index], itemOffset);
       itemOffset += items[index].length;

@@ -1,8 +1,18 @@
 import { MetaValueContract, ValueContract } from "@marubase/contract";
 import { BaseCoder } from "./base-coder";
 import { CoderInterface } from "./coder.interface";
+import { ComplexCoder } from "./complex-coder";
 
 export class NumberCoder extends BaseCoder implements CoderInterface {
+  public static service(complex: ComplexCoder): void {
+    const instance = new NumberCoder(complex.table);
+    complex.types.number = instance;
+
+    const { ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM } = complex.table;
+    const prefixes = [ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM];
+    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+  }
+
   public decodable(binary: Uint8Array): boolean {
     const { ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM } = this.table;
     return (

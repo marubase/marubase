@@ -1,8 +1,18 @@
 import { MetaValueContract, ValueContract } from "@marubase/contract";
 import { BaseCoder } from "./base-coder";
 import { CoderInterface } from "./coder.interface";
+import { ComplexCoder } from "./complex-coder";
 
 export class BufferCoder extends BaseCoder implements CoderInterface {
+  public static service(complex: ComplexCoder): void {
+    const instance = new BufferCoder(complex.table);
+    complex.types.buffer = instance;
+
+    const { ABSTART, DBSTART } = complex.table;
+    const prefixes = [ABSTART, DBSTART];
+    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+  }
+
   public decodable(binary: Uint8Array): boolean {
     const { ABSTART, DBSTART } = this.table;
     return ABSTART[0] === binary[0] || DBSTART[0] === binary[0];

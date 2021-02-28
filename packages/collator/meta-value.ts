@@ -1,6 +1,15 @@
 import { MetaValueContract, ValueContract } from "@marubase/contract/collator";
 
 export class MetaValue implements MetaValueContract {
+  public static create(
+    value: MetaValueContract | ValueContract,
+    asc: boolean
+  ): MetaValueContract {
+    return !(value instanceof MetaValue)
+      ? new MetaValue(<ValueContract>value, asc)
+      : value;
+  }
+
   public type: string;
 
   public constructor(public value: ValueContract, public asc: boolean) {

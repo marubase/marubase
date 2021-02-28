@@ -1,11 +1,21 @@
 import { MetaValueContract, ValueContract } from "@marubase/contract";
 import { BaseCoder } from "./base-coder";
 import { CoderInterface } from "./coder.interface";
+import { ComplexCoder } from "./complex-coder";
 
 export class StringCoder extends BaseCoder implements CoderInterface {
   public decoder = new TextDecoder();
 
   public encoder = new TextEncoder();
+
+  public static service(complex: ComplexCoder): void {
+    const instance = new StringCoder(complex.table);
+    complex.types.string = instance;
+
+    const { ASSTART, DSSTART } = complex.table;
+    const prefixes = [ASSTART, DSSTART];
+    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+  }
 
   public decodable(binary: Uint8Array): boolean {
     const { ASSTART, DSSTART } = this.table;
