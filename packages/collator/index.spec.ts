@@ -1,4 +1,3 @@
-import "./base-coder.spec";
 import "./boolean-coder.spec";
 import "./buffer-coder.spec";
 import "./complex-coder.spec";

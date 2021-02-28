@@ -87,7 +87,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
     describe("#encode(binary, meta)", () => {
       context("when given false value", () => {
         it("should returns false binary", () => {
-          const buffer = new ArrayBuffer(8);
+          const buffer = new ArrayBuffer(0);
           const binary = new Uint8Array(buffer, 0, 0);
 
           const value = false;
@@ -98,14 +98,14 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = encodedHex.padEnd(8 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
       });
       context("when given true value", () => {
         it("should returns true binary", () => {
-          const buffer = new ArrayBuffer(8);
+          const buffer = new ArrayBuffer(0);
           const binary = new Uint8Array(buffer, 0, 0);
 
           const value = true;
@@ -116,7 +116,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = encodedHex.padEnd(8 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
