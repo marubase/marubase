@@ -10,11 +10,11 @@ export class StringCoder extends BaseCoder implements CoderInterface {
 
   public static service(complex: ComplexCoder): void {
     const instance = new StringCoder(complex.table);
-    complex.types.string = instance;
+    complex.registerType("string", instance);
 
     const { ASSTART, DSSTART } = complex.table;
     const prefixes = [ASSTART, DSSTART];
-    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

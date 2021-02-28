@@ -6,11 +6,11 @@ import { ComplexCoder } from "./complex-coder";
 export class BufferCoder extends BaseCoder implements CoderInterface {
   public static service(complex: ComplexCoder): void {
     const instance = new BufferCoder(complex.table);
-    complex.types.buffer = instance;
+    complex.registerType("buffer", instance);
 
     const { ABSTART, DBSTART } = complex.table;
     const prefixes = [ABSTART, DBSTART];
-    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

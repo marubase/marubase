@@ -3,7 +3,7 @@ import { CodeTable } from "./code-table";
 export abstract class BaseCoder {
   public constructor(public table: typeof CodeTable) {}
 
-  public append(binary: Uint8Array, ...items: Uint8Array[]): Uint8Array {
+  protected append(binary: Uint8Array, ...items: Uint8Array[]): Uint8Array {
     let buffer = new Uint8Array(binary.buffer);
 
     let itemsByteLength = 0;
@@ -36,14 +36,14 @@ export abstract class BaseCoder {
     );
   }
 
-  public toBinary(value: number): Uint8Array {
+  protected toBinary(value: number): Uint8Array {
     const binary = new Uint8Array(8);
     const view = new DataView(binary.buffer);
     view.setFloat64(0, value, false);
     return binary;
   }
 
-  public toNumber(binary: Uint8Array): number {
+  protected toNumber(binary: Uint8Array): number {
     const { buffer, byteLength, byteOffset } = binary;
     const view = new DataView(buffer, byteOffset, byteLength);
     return view.getFloat64(0, false);

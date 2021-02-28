@@ -14,54 +14,11 @@ mirrorRun((asc, toBuffer, toMeta) => {
     let coder: ComplexCoder;
     beforeEach(() => {
       coder = new ComplexCoder(CodeTable);
-      coder.regiser(BooleanCoder.service);
-      coder.regiser(NumberCoder.service);
-      coder.regiser(DateCoder.service);
-      coder.regiser(BufferCoder.service);
-      coder.regiser(StringCoder.service);
-    });
-
-    describe("#decodable(binary)", () => {
-      context("when given [] binary", () => {
-        it("should returns true", () => {
-          const hex = "0e01";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given {} binary", () => {
-        it("should returns true", () => {
-          const hex = "0f00";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given null binary", () => {
-        it("should returns true", () => {
-          const hex = "04";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given undefined binary", () => {
-        it("should returns true", () => {
-          const hex = "10";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given false binary", () => {
-        it("should returns false", () => {
-          const hex = "05";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.false;
-        });
-      });
+      coder.register(BooleanCoder.service);
+      coder.register(NumberCoder.service);
+      coder.register(DateCoder.service);
+      coder.register(BufferCoder.service);
+      coder.register(StringCoder.service);
     });
 
     describe("#decode(binary)", () => {
@@ -204,49 +161,6 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.be.false;
-        });
-      });
-    });
-
-    describe("#encodable(meta)", () => {
-      context("when given [] value", () => {
-        it("should returns true", () => {
-          const value: ValueContract = [];
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given {} value", () => {
-        it("should returns true", () => {
-          const value = {};
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given null value", () => {
-        it("should returns true", () => {
-          const value = null;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given undefined value", () => {
-        it("should returns true", () => {
-          const value = undefined;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given false value", () => {
-        it("should returns false", () => {
-          const value = false;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.false;
         });
       });
     });

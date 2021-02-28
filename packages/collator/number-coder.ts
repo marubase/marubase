@@ -6,11 +6,11 @@ import { ComplexCoder } from "./complex-coder";
 export class NumberCoder extends BaseCoder implements CoderInterface {
   public static service(complex: ComplexCoder): void {
     const instance = new NumberCoder(complex.table);
-    complex.types.number = instance;
+    complex.registerType("number", instance);
 
     const { ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM } = complex.table;
     const prefixes = [ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM];
-    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

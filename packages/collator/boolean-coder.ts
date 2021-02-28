@@ -6,11 +6,11 @@ import { ComplexCoder } from "./complex-coder";
 export class BooleanCoder extends BaseCoder implements CoderInterface {
   public static service(complex: ComplexCoder): void {
     const instance = new BooleanCoder(complex.table);
-    complex.types.boolean = instance;
+    complex.registerType("boolean", instance);
 
     const { AFALSE, ATRUE, DFALSE, DTRUE } = complex.table;
     const prefixes = [AFALSE, ATRUE, DFALSE, DTRUE];
-    prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
+    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

@@ -4,28 +4,14 @@ import { CoderInterface } from "./coder.interface";
 import { MetaValue } from "./meta-value";
 
 export class ComplexCoder extends BaseCoder implements CoderInterface {
-  public prefixes: { [type: number]: CoderInterface } = {};
+  protected prefixes: { [type: number]: CoderInterface } = {};
 
-  public types: { [type: string]: CoderInterface } = {};
-
-  public decodable(binary: Uint8Array): boolean {
-    const { ANULL, AASTART, AOSTART, AUNDEF } = this.table;
-    const { DNULL, DASTART, DOSTART, DUNDEF } = this.table;
-    return (
-      ANULL[0] === binary[0] ||
-      AASTART[0] === binary[0] ||
-      AOSTART[0] === binary[0] ||
-      AUNDEF[0] === binary[0] ||
-      DNULL[0] === binary[0] ||
-      DASTART[0] === binary[0] ||
-      DOSTART[0] === binary[0] ||
-      DUNDEF[0] === binary[0]
-    );
-  }
+  protected types: { [type: string]: CoderInterface } = {};
 
   public decode(binary: Uint8Array): ValueContract {
     if (this.prefixes[binary[0]])
       return this.prefixes[binary[0]].decode(binary);
+
     const { ANULL, AUNDEF, DNULL, DUNDEF } = this.table;
     if (ANULL[0] === binary[0] || DNULL[0] === binary[0]) return null;
     if (AUNDEF[0] === binary[0] || DUNDEF[0] === binary[0]) return undefined;
@@ -113,15 +99,6 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     return data[0];
   }
 
-  public encodable(value: MetaValueContract): boolean {
-    return (
-      value.type === "array" ||
-      value.type === "null" ||
-      value.type === "object" ||
-      value.type === "undefined"
-    );
-  }
-
   public encode(binary: Uint8Array, value: MetaValueContract): Uint8Array {
     if (this.types[value.type])
       return this.types[value.type].encode(binary, value);
@@ -131,8 +108,18 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     return this.encodeUndefined(binary, value);
   }
 
-  public regiser(serviceFn: (coder: ComplexCoder) => void): ComplexCoder {
+  public register(serviceFn: (coder: ComplexCoder) => void): ComplexCoder {
     serviceFn(this);
+    return this;
+  }
+
+  public registerPrefix(prefix: number, coder: CoderInterface): ComplexCoder {
+    this.prefixes[prefix] = coder;
+    return this;
+  }
+
+  public registerType(type: string, coder: CoderInterface): ComplexCoder {
+    this.types[type] = coder;
     return this;
   }
 
