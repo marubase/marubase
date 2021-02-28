@@ -21,8 +21,8 @@ export abstract class BaseCoder {
 
     const binaryByteLength =
       binary.byteOffset + binary.byteLength + itemsByteLength;
-    while (binaryByteLength > buffer.length) {
-      let newLength = buffer.length * 2 || 1;
+    if (binaryByteLength > buffer.length) {
+      let newLength = buffer.length * 2 || 8;
       while (binaryByteLength > newLength) newLength *= 2;
 
       const newBuffer = new Uint8Array(newLength);
@@ -35,7 +35,6 @@ export abstract class BaseCoder {
       buffer.set(items[index], itemOffset);
       itemOffset += items[index].length;
     }
-
     return new Uint8Array(
       buffer.buffer,
       binary.byteOffset,
@@ -45,32 +44,34 @@ export abstract class BaseCoder {
 
   protected escape(binary: Uint8Array): Uint8Array {
     const { AESCAPE } = this.table;
+    const buffer = new Uint8Array(binary.buffer);
     const blocks: Uint8Array[] = [];
     let blockSize = 0;
 
-    const binaryLength = binary.length;
-    let offset = 0;
-    ESCAPE: for (let index = 0; index < binaryLength; index++) {
+    const target = binary.byteOffset + binary.byteLength;
+    let idx = binary.byteOffset;
+    let oft = binary.byteOffset;
+    ESCAPE: for (; idx < target; idx++) {
       for (let cursor = this.ESCAPEE.length - 1; cursor >= 0; cursor--) {
-        const TARGET = this.ESCAPEE[cursor];
-        if (TARGET[0] === binary[index]) {
-          const block = new Uint8Array(binary.buffer, offset, index + 1);
+        const PREFIX = this.ESCAPEE[cursor];
+        if (PREFIX[0] === buffer[idx]) {
+          const block = new Uint8Array(binary.buffer, oft, idx - oft + 1);
           blocks.push(block, AESCAPE);
           blockSize += block.length + 1;
-          offset = index + 1;
+          oft = idx + 1;
           continue ESCAPE;
         }
       }
     }
-    const block = new Uint8Array(binary.buffer, offset);
-    blockSize += block.length;
+    const block = new Uint8Array(binary.buffer, oft, idx - oft);
     blocks.push(block);
+    blockSize += block.length;
 
     const newBinary = new Uint8Array(blockSize);
     const blockLength = blocks.length;
     for (let index = 0, offset = 0; index < blockLength; index++) {
       newBinary.set(blocks[index], offset);
-      offset += blocks[index].byteLength;
+      offset += blocks[index].length;
     }
     return newBinary;
   }
@@ -94,31 +95,31 @@ export abstract class BaseCoder {
     const blocks: Uint8Array[] = [];
     let blockSize = 0;
 
-    const byteLength = binary.byteOffset + binary.byteLength;
+    const target = binary.byteOffset + binary.byteLength;
     let idx = binary.byteOffset;
-    let offset = binary.byteOffset;
-    UNESCAPE: for (; idx < byteLength; idx++) {
+    let oft = binary.byteOffset;
+    UNESCAPE: for (; idx < target; idx++) {
       for (let cursor = this.ESCAPEE.length - 1; cursor >= 0; cursor--) {
-        const TARGET = this.ESCAPEE[cursor];
-        if (TARGET[0] === buffer[idx] && AESCAPE[0] === buffer[idx + 1]) {
-          const block = new Uint8Array(binary.buffer, offset, idx - offset + 1);
+        const PREFIX = this.ESCAPEE[cursor];
+        if (PREFIX[0] === buffer[idx] && AESCAPE[0] === buffer[idx + 1]) {
+          const block = new Uint8Array(binary.buffer, oft, idx - oft + 1);
           blocks.push(block);
           blockSize += block.length;
-          offset = idx + 2;
+          oft = idx + 2;
           idx = idx + 1;
           continue UNESCAPE;
         }
       }
     }
-    const block = new Uint8Array(binary.buffer, offset, idx - offset);
+    const block = new Uint8Array(binary.buffer, oft, idx - oft);
     blocks.push(block);
     blockSize += block.length;
 
     const newBinary = new Uint8Array(blockSize);
     const blockLength = blocks.length;
-    for (let idx = 0, offset = 0; idx < blockLength; idx++) {
-      newBinary.set(blocks[idx], offset);
-      offset += blocks[idx].length;
+    for (let index = 0, offset = 0; index < blockLength; index++) {
+      newBinary.set(blocks[index], offset);
+      offset += blocks[index].length;
     }
     return newBinary;
   }

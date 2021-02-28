@@ -27,11 +27,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     for (let index = 0, offset = 0, key = ""; index < binaryLength; index++) {
       const cursor = cursorStack[cursorStack.length - 1];
       if (AASTART[0] === binary[index] || DASTART[0] === binary[index]) {
-        if (AASTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DASTART[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AASTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DASTART[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
@@ -47,11 +46,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AACOMMA[0] === binary[index] || DACOMMA[0] === binary[index]) {
-        if (AACOMMA[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DACOMMA[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AACOMMA[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DACOMMA[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
@@ -64,11 +62,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AAEND[0] === binary[index] || DAEND[0] === binary[index]) {
-        if (AAEND[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DAEND[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AAEND[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DAEND[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
@@ -83,11 +80,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
       }
 
       if (AOSTART[0] === binary[index] || DOSTART[0] === binary[index]) {
-        if (AOSTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DOSTART[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AOSTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DOSTART[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
@@ -103,11 +99,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AOCOLON[0] === binary[index] || DOCOLON[0] === binary[index]) {
-        if (AOCOLON[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DOCOLON[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AOCOLON[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DOCOLON[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
@@ -117,11 +112,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AOCOMMA[0] === binary[index] || DOCOMMA[0] === binary[index]) {
-        if (AOCOMMA[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DOCOMMA[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AOCOMMA[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DOCOMMA[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
@@ -134,11 +128,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AOEND[0] === binary[index] || DOEND[0] === binary[index]) {
-        if (AOEND[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
-          index += 1;
-          continue;
-        }
-        if (DOEND[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+        if (
+          (AOEND[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DOEND[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
           index += 1;
           continue;
         }
