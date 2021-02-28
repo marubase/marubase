@@ -16,12 +16,14 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
   public decode(binary: Uint8Array): ValueContract {
     if (binary[0] < 128) {
       const { buffer, byteLength, byteOffset } = binary;
-      const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
+      const escaped = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
+      const content = this.unescape(escaped);
       return content;
     } else {
       const { buffer, byteLength, byteOffset } = binary;
       const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
-      const content = inverted.map((b) => b ^ 255);
+      const escaped = inverted.map((b) => b ^ 255);
+      const content = this.unescape(escaped);
       return content;
     }
   }
@@ -30,11 +32,13 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
     if (meta.asc) {
       const { ABSTART, ABEND } = this.table;
       const content = <Uint8Array>meta.value;
-      return this.append(binary, ABSTART, content, ABEND);
+      const escaped = this.escape(content);
+      return this.append(binary, ABSTART, escaped, ABEND);
     } else {
       const { DBSTART, DBEND } = this.table;
       const content = <Uint8Array>meta.value;
-      const inverted = content.map((b) => b ^ 255);
+      const escaped = this.escape(content);
+      const inverted = escaped.map((b) => b ^ 255);
       return this.append(binary, DBSTART, inverted, DBEND);
     }
   }

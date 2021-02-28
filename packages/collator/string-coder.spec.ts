@@ -21,7 +21,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
         });
       });
       context("when given string with specials binary", () => {
-        it("should returns unescaped string value", () => {
+        it("should returns string value", () => {
           const hex = "0d746573747f7f02";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
@@ -29,7 +29,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
         });
       });
       context("when given string with specials binary #2", () => {
-        it("should returns unescaped string value", () => {
+        it("should returns string value", () => {
           const hex = "0d7f7f7465737402";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
@@ -58,7 +58,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
         });
       });
       context("when given string with specials", () => {
-        it("should returns escaped string binary", () => {
+        it("should returns string binary", () => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);
 
@@ -76,7 +76,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
         });
       });
       context("when given string with specials #2", () => {
-        it("should returns escaped string binary", () => {
+        it("should returns string binary", () => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);
 
