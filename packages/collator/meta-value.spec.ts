@@ -2,7 +2,7 @@ import { expect } from "chai";
 import { MetaValue } from "./meta-value";
 
 describe("MetaValue", () => {
-  describe(".service(value, asc)", () => {
+  describe(".create(value, asc)", () => {
     context("when given value", () => {
       it("should returns meta value", () => {
         const value = false;

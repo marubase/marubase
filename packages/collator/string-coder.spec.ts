@@ -20,7 +20,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(decoded).to.equals("test");
         });
       });
-      context("when given string with specials binary", () => {
+      context("when given special string binary", () => {
         it("should returns string value", () => {
           const hex = "0d746573747f7f02";
           const binary = toBuffer(hex);
@@ -28,7 +28,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(decoded).to.equals("test\x7f");
         });
       });
-      context("when given string with specials binary #2", () => {
+      context("when given special string binary #2", () => {
         it("should returns string value", () => {
           const hex = "0d7f7f7465737402";
           const binary = toBuffer(hex);
@@ -57,7 +57,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
       });
-      context("when given string with specials", () => {
+      context("when given special string value", () => {
         it("should returns string binary", () => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);
@@ -75,7 +75,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
       });
-      context("when given string with specials #2", () => {
+      context("when given special string value #2", () => {
         it("should returns string binary", () => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);

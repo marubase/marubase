@@ -22,7 +22,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(decoded).to.deep.equals(decodedBinary);
         });
       });
-      context("when given buffer with specials binary", () => {
+      context("when given special buffer binary", () => {
         it("should returns buffer value", () => {
           const hex = "0c746573747f7f03";
           const binary = toBuffer(hex);
@@ -32,7 +32,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(decoded).to.deep.equals(decodedBinary);
         });
       });
-      context("when given buffer with specials binary #2", () => {
+      context("when given special buffer binary #2", () => {
         it("should returns buffer value", () => {
           const hex = "0c7f7f7465737403";
           const binary = toBuffer(hex);
@@ -63,7 +63,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
       });
-      context("when given buffer with specials", () => {
+      context("when given special buffer value", () => {
         it("should returns buffer binary", () => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);
@@ -81,7 +81,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
       });
-      context("when given buffer with specials #2", () => {
+      context("when given special buffer value #2", () => {
         it("should returns buffer binary", () => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);
