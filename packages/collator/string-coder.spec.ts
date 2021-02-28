@@ -93,6 +93,24 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
       });
+      context("when given long string value", () => {
+        it("should returns string binary", () => {
+          const buffer = new ArrayBuffer(1);
+          const binary = new Uint8Array(buffer, 0, 0);
+
+          const value = "testtesttest";
+          const meta = toMeta(value);
+          const encoded = coder.encode(binary, meta);
+
+          const encodedHex = "0d74657374746573747465737402";
+          const encodedBinary = toBuffer(encodedHex);
+          expect(encoded).to.deep.equals(encodedBinary);
+
+          const bufferHex = encodedHex.padEnd(16 * 2, asc ? "0" : "f");
+          const bufferBinary = toBuffer(bufferHex);
+          expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
+        });
+      });
     });
   });
 });
