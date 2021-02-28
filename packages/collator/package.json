@@ -6,6 +6,7 @@
   "types": "./index.d.ts",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint",
     "test": "npm run test:nodejs && npm run test:browser",
     "test:browser": "karma start ../../karma.conf.js",
     "test:nodejs": "nyc mocha index.spec.ts"
