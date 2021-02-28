@@ -15,7 +15,6 @@ module.exports = function (configuration) {
       require("./.karma/launcher"),
     ],
     preprocessors: { "**/*.spec.ts": ["webpack", "sourcemap"] },
-    reporters: ["progress"],
     singleRun: true,
     webpack: {
       devtool: "inline-source-map",
