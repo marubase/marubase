@@ -11,25 +11,6 @@ mirrorRun((asc, toBuffer, toMeta) => {
       coder = new StringCoder(CodeTable);
     });
 
-    describe("#decodable(binary)", () => {
-      context("when given string binary", () => {
-        it("should returns true", () => {
-          const hex = "0d7465737402";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given null binary", () => {
-        it("should returns false", () => {
-          const hex = "04";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.false;
-        });
-      });
-    });
-
     describe("#decode(binary)", () => {
       context("when given string binary", () => {
         it("should returns string", () => {
@@ -37,25 +18,6 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.equals("test");
-        });
-      });
-    });
-
-    describe("#encodable(meta)", () => {
-      context("when given string value", () => {
-        it("should returns true", () => {
-          const value = "test";
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given null value", () => {
-        it("should returns false", () => {
-          const value = null;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.false;
         });
       });
     });

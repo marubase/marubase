@@ -17,11 +17,6 @@ export class StringCoder extends BaseCoder implements CoderInterface {
     prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
   }
 
-  public decodable(binary: Uint8Array): boolean {
-    const { ASSTART, DSSTART } = this.table;
-    return ASSTART[0] === binary[0] || DSSTART[0] === binary[0];
-  }
-
   public decode(binary: Uint8Array): ValueContract {
     if (binary[0] < 128) {
       const { buffer, byteLength, byteOffset } = binary;
@@ -33,10 +28,6 @@ export class StringCoder extends BaseCoder implements CoderInterface {
       const content = inverted.map((b) => b ^ 255);
       return this.decoder.decode(content);
     }
-  }
-
-  public encodable(meta: MetaValueContract): boolean {
-    return meta.type === "string";
   }
 
   public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {

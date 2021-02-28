@@ -13,16 +13,6 @@ export class DateCoder extends BaseCoder implements CoderInterface {
     prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
   }
 
-  public decodable(binary: Uint8Array): boolean {
-    const { APDATE, ANDATE, DPDATE, DNDATE } = this.table;
-    return (
-      APDATE[0] === binary[0] ||
-      ANDATE[0] === binary[0] ||
-      DPDATE[0] === binary[0] ||
-      DNDATE[0] === binary[0]
-    );
-  }
-
   public decode(binary: Uint8Array): ValueContract {
     if (binary[0] < 128) {
       const { APDATE } = this.table;
@@ -53,10 +43,6 @@ export class DateCoder extends BaseCoder implements CoderInterface {
         return new Date(epoch);
       }
     }
-  }
-
-  public encodable(meta: MetaValueContract): boolean {
-    return meta.type === "date";
   }
 
   public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {

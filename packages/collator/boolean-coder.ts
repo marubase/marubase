@@ -13,23 +13,9 @@ export class BooleanCoder extends BaseCoder implements CoderInterface {
     prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
   }
 
-  public decodable(binary: Uint8Array): boolean {
-    const { AFALSE, ATRUE, DFALSE, DTRUE } = this.table;
-    return (
-      AFALSE[0] === binary[0] ||
-      ATRUE[0] === binary[0] ||
-      DFALSE[0] === binary[0] ||
-      DTRUE[0] === binary[0]
-    );
-  }
-
   public decode(binary: Uint8Array): ValueContract {
     const { ATRUE, DTRUE } = this.table;
     return ATRUE[0] === binary[0] || DTRUE[0] === binary[0];
-  }
-
-  public encodable(meta: MetaValueContract): boolean {
-    return meta.type === "boolean";
   }
 
   public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {

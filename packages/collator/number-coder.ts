@@ -13,18 +13,6 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
     prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
   }
 
-  public decodable(binary: Uint8Array): boolean {
-    const { ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM } = this.table;
-    return (
-      ANAN[0] === binary[0] ||
-      APNUM[0] === binary[0] ||
-      ANNUM[0] === binary[0] ||
-      DNAN[0] === binary[0] ||
-      DPNUM[0] === binary[0] ||
-      DNNUM[0] === binary[0]
-    );
-  }
-
   public decode(binary: Uint8Array): ValueContract {
     if (binary[0] < 128) {
       const { ANAN, APNUM } = this.table;
@@ -55,10 +43,6 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
         return -1 * this.toNumber(content);
       }
     }
-  }
-
-  public encodable(meta: MetaValueContract): boolean {
-    return meta.type === "number";
   }
 
   public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {

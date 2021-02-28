@@ -13,11 +13,6 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
     prefixes.forEach((prefix) => (complex.prefixes[prefix[0]] = instance));
   }
 
-  public decodable(binary: Uint8Array): boolean {
-    const { ABSTART, DBSTART } = this.table;
-    return ABSTART[0] === binary[0] || DBSTART[0] === binary[0];
-  }
-
   public decode(binary: Uint8Array): ValueContract {
     if (binary[0] < 128) {
       const { buffer, byteLength, byteOffset } = binary;
@@ -29,10 +24,6 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
       const content = inverted.map((b) => b ^ 255);
       return content;
     }
-  }
-
-  public encodable(meta: MetaValueContract): boolean {
-    return meta.type === "buffer";
   }
 
   public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {

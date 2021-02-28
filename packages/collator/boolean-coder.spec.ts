@@ -11,33 +11,6 @@ mirrorRun((asc, toBuffer, toMeta) => {
       coder = new BooleanCoder(CodeTable);
     });
 
-    describe("#decodable(binary)", () => {
-      context("when given false binary", () => {
-        it("should returns true", () => {
-          const hex = "05";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given true binary", () => {
-        it("should returns true", () => {
-          const hex = "06";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.true;
-        });
-      });
-      context("when given null binary", () => {
-        it("should returns false", () => {
-          const hex = "04";
-          const binary = toBuffer(hex);
-          const decodable = coder.decodable(binary);
-          expect(decodable).to.be.false;
-        });
-      });
-    });
-
     describe("#decode(binary)", () => {
       context("when given false binary", () => {
         it("should returns false value", () => {
@@ -53,33 +26,6 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.be.true;
-        });
-      });
-    });
-
-    describe("#encodable(meta)", () => {
-      context("when given false value", () => {
-        it("should returns true", () => {
-          const value = false;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given true value", () => {
-        it("should returns true", () => {
-          const value = true;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.true;
-        });
-      });
-      context("when given null value", () => {
-        it("should returns false", () => {
-          const value = null;
-          const meta = toMeta(value);
-          const encodable = coder.encodable(meta);
-          expect(encodable).to.be.false;
         });
       });
     });
