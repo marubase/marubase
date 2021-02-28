@@ -139,6 +139,16 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(decoded).to.deep.equals(decodedValue);
         });
       });
+      context("when given [00010e0f7c7d7e7f] binary", () => {
+        it("should returns [00010e0f7c7d7e7f] value", () => {
+          const hex = "0e0d007f017f0e7f0f7f7c7f7d7f7e7f7f0201";
+          const binary = toBuffer(hex);
+          const decoded = coder.decode(binary);
+
+          const decodedValue = ["\x00\x01\x0e\x0f\x7c\x7d\x7e\x7f"];
+          expect(decoded).to.deep.equals(decodedValue);
+        });
+      });
       context("when given null binary", () => {
         it("should returns null value", () => {
           const hex = "04";

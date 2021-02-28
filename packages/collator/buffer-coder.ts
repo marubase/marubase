@@ -10,7 +10,7 @@ export class BufferCoder extends BaseCoder implements CoderInterface {
 
     const { ABSTART, DBSTART } = complex.table;
     const prefixes = [ABSTART, DBSTART];
-    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
+    prefixes.forEach((prefix) => complex.registerPrefix(prefix[0], instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

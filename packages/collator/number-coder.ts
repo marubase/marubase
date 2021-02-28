@@ -10,7 +10,7 @@ export class NumberCoder extends BaseCoder implements CoderInterface {
 
     const { ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM } = complex.table;
     const prefixes = [ANAN, APNUM, ANNUM, DNAN, DPNUM, DNNUM];
-    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
+    prefixes.forEach((prefix) => complex.registerPrefix(prefix[0], instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

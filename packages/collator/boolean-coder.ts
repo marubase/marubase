@@ -10,7 +10,7 @@ export class BooleanCoder extends BaseCoder implements CoderInterface {
 
     const { AFALSE, ATRUE, DFALSE, DTRUE } = complex.table;
     const prefixes = [AFALSE, ATRUE, DFALSE, DTRUE];
-    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
+    prefixes.forEach((prefix) => complex.registerPrefix(prefix[0], instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

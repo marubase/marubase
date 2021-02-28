@@ -10,7 +10,7 @@ export class DateCoder extends BaseCoder implements CoderInterface {
 
     const { APDATE, ANDATE, DPDATE, DNDATE } = complex.table;
     const prefixes = [APDATE, ANDATE, DPDATE, DNDATE];
-    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
+    prefixes.forEach((prefix) => complex.registerPrefix(prefix[0], instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {

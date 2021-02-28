@@ -14,18 +14,20 @@ export class StringCoder extends BaseCoder implements CoderInterface {
 
     const { ASSTART, DSSTART } = complex.table;
     const prefixes = [ASSTART, DSSTART];
-    prefixes.forEach(([prefix]) => complex.registerPrefix(prefix, instance));
+    prefixes.forEach((prefix) => complex.registerPrefix(prefix[0], instance));
   }
 
   public decode(binary: Uint8Array): ValueContract {
     if (binary[0] < 128) {
       const { buffer, byteLength, byteOffset } = binary;
-      const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
+      const escaped = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
+      const content = this.unescape(escaped);
       return this.decoder.decode(content);
     } else {
       const { buffer, byteLength, byteOffset } = binary;
       const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
-      const content = inverted.map((b) => b ^ 255);
+      const escaped = inverted.map((b) => b ^ 255);
+      const content = this.unescape(escaped);
       return this.decoder.decode(content);
     }
   }
@@ -34,11 +36,13 @@ export class StringCoder extends BaseCoder implements CoderInterface {
     if (meta.asc) {
       const { ASSTART, ASEND } = this.table;
       const content = this.encoder.encode(<string>meta.value);
-      return this.append(binary, ASSTART, content, ASEND);
+      const escaped = this.escape(content);
+      return this.append(binary, ASSTART, escaped, ASEND);
     } else {
       const { DSSTART, DSEND } = this.table;
       const content = this.encoder.encode(<string>meta.value);
-      const inverted = content.map((b) => b ^ 255);
+      const escaped = this.escape(content);
+      const inverted = escaped.map((b) => b ^ 255);
       return this.append(binary, DSSTART, inverted, DSEND);
     }
   }

@@ -27,6 +27,14 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     for (let index = 0, offset = 0, key = ""; index < binaryLength; index++) {
       const cursor = cursorStack[cursorStack.length - 1];
       if (AASTART[0] === binary[index] || DASTART[0] === binary[index]) {
+        if (AASTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DASTART[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         if (Array.isArray(cursor)) {
           cursor.push([]);
           cursorStack.push(cursor[cursor.length - 1]);
@@ -39,6 +47,14 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AACOMMA[0] === binary[index] || DACOMMA[0] === binary[index]) {
+        if (AACOMMA[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DACOMMA[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
@@ -48,6 +64,14 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AAEND[0] === binary[index] || DAEND[0] === binary[index]) {
+        if (AAEND[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DAEND[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
@@ -59,6 +83,14 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
       }
 
       if (AOSTART[0] === binary[index] || DOSTART[0] === binary[index]) {
+        if (AOSTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DOSTART[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         if (Array.isArray(cursor)) {
           cursor.push({});
           cursorStack.push(cursor[cursor.length - 1]);
@@ -71,12 +103,28 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AOCOLON[0] === binary[index] || DOCOLON[0] === binary[index]) {
+        if (AOCOLON[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DOCOLON[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         key = <string>this.decode(encoded);
         offset = index + 1;
         continue;
       }
       if (AOCOMMA[0] === binary[index] || DOCOMMA[0] === binary[index]) {
+        if (AOCOMMA[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DOCOMMA[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
@@ -86,6 +134,14 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         continue;
       }
       if (AOEND[0] === binary[index] || DOEND[0] === binary[index]) {
+        if (AOEND[0] === binary[index] && AESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
+        if (DOEND[0] === binary[index] && DESCAPE[0] === binary[index + 1]) {
+          index += 1;
+          continue;
+        }
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
