@@ -14,6 +14,10 @@
   "dependencies": {
     "@marubase/contract": "^0.0.0"
   },
+  "devDependencies": {
+    "bytewise": "^1.1.0",
+    "charwise": "^3.0.1"
+  },
   "publishConfig": {
     "access": "public"
   }
