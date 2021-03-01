@@ -7,13 +7,9 @@ module.exports = function (configuration) {
     browsers: ["Chromium", "Firefox", "WebKit"],
     files: [path.resolve(process.cwd(), "index.spec.ts")],
     frameworks: ["mocha", "webpack"],
+    hostname: "127.0.0.1",
     logLevel: configuration.LOG_WARN,
-    plugins: [
-      "karma-mocha",
-      "karma-sourcemap-loader",
-      "karma-webpack",
-      require("./.karma/launcher"),
-    ],
+    plugins: ["karma-*", require("./.karma/launcher")],
     preprocessors: { "**/*.spec.ts": ["webpack", "sourcemap"] },
     singleRun: true,
     webpack: {
