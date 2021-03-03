@@ -18,13 +18,15 @@ export class DateCoder extends BaseCoder implements CoderInterface {
       const { APDATE } = this.table;
       if (APDATE[0] === binary[0]) {
         const { buffer, byteLength, byteOffset } = binary;
-        const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
+        const escaped = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
+        const content = this.unescape(escaped);
         const epoch = this.toNumber(content);
         return new Date(epoch);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
         const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        const content = inverted.map((b) => b ^ 255);
+        const escaped = inverted.map((b) => b ^ 255);
+        const content = this.unescape(escaped);
         const epoch = -1 * this.toNumber(content);
         return new Date(epoch);
       }
@@ -33,12 +35,14 @@ export class DateCoder extends BaseCoder implements CoderInterface {
       if (DPDATE[0] === binary[0]) {
         const { buffer, byteLength, byteOffset } = binary;
         const inverted = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
-        const content = inverted.map((b) => b ^ 255);
+        const escaped = inverted.map((b) => b ^ 255);
+        const content = this.unescape(escaped);
         const epoch = this.toNumber(content);
         return new Date(epoch);
       } else {
         const { buffer, byteLength, byteOffset } = binary;
-        const content = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
+        const escaped = new Uint8Array(buffer, byteOffset + 1, byteLength - 1);
+        const content = this.unescape(escaped);
         const epoch = -1 * this.toNumber(content);
         return new Date(epoch);
       }
@@ -51,21 +55,25 @@ export class DateCoder extends BaseCoder implements CoderInterface {
       const { APDATE, ANDATE } = this.table;
       if (epoch >= 0) {
         const content = this.toBinary(epoch);
-        return this.append(binary, APDATE, content);
+        const escaped = this.escape(content);
+        return this.append(binary, APDATE, escaped);
       } else {
         const content = this.toBinary(-1 * epoch);
-        const inverted = content.map((b) => b ^ 255);
+        const escaped = this.escape(content);
+        const inverted = escaped.map((b) => b ^ 255);
         return this.append(binary, ANDATE, inverted);
       }
     } else {
       const { DPDATE, DNDATE } = this.table;
       if (epoch >= 0) {
         const content = this.toBinary(epoch);
-        const inverted = content.map((b) => b ^ 255);
+        const escaped = this.escape(content);
+        const inverted = escaped.map((b) => b ^ 255);
         return this.append(binary, DPDATE, inverted);
       } else {
         const content = this.toBinary(-1 * epoch);
-        return this.append(binary, DNDATE, content);
+        const escaped = this.escape(content);
+        return this.append(binary, DNDATE, escaped);
       }
     }
   }
