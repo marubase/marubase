@@ -14,7 +14,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
     describe("#decode(binary)", () => {
       context("when given -Infinity binary", () => {
         it("should returns -Infinity value", () => {
-          const hex = "0880800fff80ff80ff80ff80ff80ff80";
+          const hex = "0880800f7fff80ff80ff80ff80ff80ff80";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.equals(-Infinity);
@@ -46,7 +46,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
       context("when given Infinity binary", () => {
         it("should returns Infinity value", () => {
-          const hex = "097f7ff0007f007f007f007f007f007f";
+          const hex = "097f7ff080007f007f007f007f007f007f";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.equals(Infinity);
@@ -72,11 +72,11 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "0880800fff80ff80ff80ff80ff80ff80";
+          const encodedHex = "0880800f7fff80ff80ff80ff80ff80ff80";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = encodedHex.padEnd(16 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(32 * 2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
@@ -144,11 +144,11 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "097f7ff0007f007f007f007f007f007f";
+          const encodedHex = "097f7ff080007f007f007f007f007f007f";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = encodedHex.padEnd(16 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(32 * 2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });

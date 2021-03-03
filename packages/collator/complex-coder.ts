@@ -26,6 +26,16 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     const binaryLength = binary.length;
     for (let index = 0, offset = 0, key = ""; index < binaryLength; index++) {
       const cursor = cursorStack[cursorStack.length - 1];
+      if (AESCAPE[0] === binary[index] || DESCAPE[0] === binary[index]) {
+        if (
+          (AESCAPE[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||
+          (DESCAPE[0] === binary[index] && DESCAPE[0] === binary[index + 1])
+        ) {
+          index += 1;
+          continue;
+        }
+      }
+
       if (AASTART[0] === binary[index] || DASTART[0] === binary[index]) {
         if (
           (AASTART[0] === binary[index] && AESCAPE[0] === binary[index + 1]) ||

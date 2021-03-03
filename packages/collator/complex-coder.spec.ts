@@ -42,6 +42,16 @@ mirrorRun((asc, toBuffer, toMeta) => {
           expect(decoded).to.deep.equals(decodedValue);
         });
       });
+      context("when given [Infinity] binary", () => {
+        it("should returns [Infinity] value", () => {
+          const hex = "0e097f7ff080007f007f007f007f007f007f01";
+          const binary = toBuffer(hex);
+          const decoded = coder.decode(binary);
+
+          const decodedValue = [Infinity];
+          expect(decoded).to.deep.equals(decodedValue);
+        });
+      });
       context("when given [false, true] binary", () => {
         it("should returns [false, true] value", () => {
           const hex = "0e057c0601";

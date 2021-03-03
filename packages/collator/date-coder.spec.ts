@@ -14,7 +14,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
     describe("#decode(binary)", () => {
       context("when given positive date binary", () => {
         it("should returns date value", () => {
-          const hex = "0b3ff0007f007f007f007f007f007f";
+          const hex = "0b3ff080007f007f007f007f007f007f";
           const binary = toBuffer(hex);
           const decodable = coder.decode(binary);
           expect(decodable).to.instanceOf(Date);
@@ -22,7 +22,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
       context("when given negative date binary", () => {
         it("should returns date value", () => {
-          const hex = "0ac00fff80ff80ff80ff80ff80ff80";
+          const hex = "0ac00f7fff80ff80ff80ff80ff80ff80";
           const binary = toBuffer(hex);
           const decodable = coder.decode(binary);
           expect(decodable).to.instanceOf(Date);
@@ -40,7 +40,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "0b3ff0007f007f007f007f007f007f";
+          const encodedHex = "0b3ff080007f007f007f007f007f007f";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
@@ -58,7 +58,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "0ac00fff80ff80ff80ff80ff80ff80";
+          const encodedHex = "0ac00f7fff80ff80ff80ff80ff80ff80";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 

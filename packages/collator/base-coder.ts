@@ -1,13 +1,20 @@
 import { CodeTable } from "./code-table";
 
 export abstract class BaseCoder {
-  public ESCAPEE: Uint8Array[] = [];
+  public AESCAPEE: Uint8Array[] = [];
+
+  public DESCAPEE: Uint8Array[] = [];
 
   public constructor(public table: typeof CodeTable) {
     const { AASTART, AACOMMA, AAEND, AESCAPE } = this.table;
     const { AOSTART, AOCOLON, AOCOMMA, AOEND } = this.table;
-    this.ESCAPEE = [AASTART, AACOMMA, AAEND, AESCAPE];
-    this.ESCAPEE.push(AOSTART, AOCOLON, AOCOMMA, AOEND);
+    this.AESCAPEE = [AASTART, AACOMMA, AAEND, AESCAPE];
+    this.AESCAPEE.push(AOSTART, AOCOLON, AOCOMMA, AOEND);
+
+    const { DASTART, DACOMMA, DAEND, DESCAPE } = this.table;
+    const { DOSTART, DOCOLON, DOCOMMA, DOEND } = this.table;
+    this.DESCAPEE = [DASTART, DACOMMA, DAEND, DESCAPE];
+    this.DESCAPEE.push(DOSTART, DOCOLON, DOCOMMA, DOEND);
   }
 
   protected append(binary: Uint8Array, ...items: Uint8Array[]): Uint8Array {
@@ -43,7 +50,7 @@ export abstract class BaseCoder {
   }
 
   protected escape(binary: Uint8Array): Uint8Array {
-    const { AESCAPE } = this.table;
+    const { AESCAPE, DESCAPE } = this.table;
     const buffer = new Uint8Array(binary.buffer);
     const blocks: Uint8Array[] = [];
     let blockSize = 0;
@@ -52,11 +59,21 @@ export abstract class BaseCoder {
     let idx = binary.byteOffset;
     let oft = binary.byteOffset;
     ESCAPE: for (; idx < target; idx++) {
-      for (let cursor = this.ESCAPEE.length - 1; cursor >= 0; cursor--) {
-        const PREFIX = this.ESCAPEE[cursor];
+      for (let cursor = this.AESCAPEE.length - 1; cursor >= 0; cursor--) {
+        const PREFIX = this.AESCAPEE[cursor];
         if (PREFIX[0] === buffer[idx]) {
           const block = new Uint8Array(binary.buffer, oft, idx - oft + 1);
           blocks.push(block, AESCAPE);
+          blockSize += block.length + 1;
+          oft = idx + 1;
+          continue ESCAPE;
+        }
+      }
+      for (let cursor = this.DESCAPEE.length - 1; cursor >= 0; cursor--) {
+        const PREFIX = this.DESCAPEE[cursor];
+        if (PREFIX[0] === buffer[idx]) {
+          const block = new Uint8Array(binary.buffer, oft, idx - oft + 1);
+          blocks.push(block, DESCAPE);
           blockSize += block.length + 1;
           oft = idx + 1;
           continue ESCAPE;
@@ -90,7 +107,7 @@ export abstract class BaseCoder {
   }
 
   protected unescape(binary: Uint8Array): Uint8Array {
-    const { AESCAPE } = this.table;
+    const { AESCAPE, DESCAPE } = this.table;
     const buffer = new Uint8Array(binary.buffer);
     const blocks: Uint8Array[] = [];
     let blockSize = 0;
@@ -99,9 +116,20 @@ export abstract class BaseCoder {
     let idx = binary.byteOffset;
     let oft = binary.byteOffset;
     UNESCAPE: for (; idx < target; idx++) {
-      for (let cursor = this.ESCAPEE.length - 1; cursor >= 0; cursor--) {
-        const PREFIX = this.ESCAPEE[cursor];
+      for (let cursor = this.AESCAPEE.length - 1; cursor >= 0; cursor--) {
+        const PREFIX = this.AESCAPEE[cursor];
         if (PREFIX[0] === buffer[idx] && AESCAPE[0] === buffer[idx + 1]) {
+          const block = new Uint8Array(binary.buffer, oft, idx - oft + 1);
+          blocks.push(block);
+          blockSize += block.length;
+          oft = idx + 2;
+          idx = idx + 1;
+          continue UNESCAPE;
+        }
+      }
+      for (let cursor = this.DESCAPEE.length - 1; cursor >= 0; cursor--) {
+        const PREFIX = this.DESCAPEE[cursor];
+        if (PREFIX[0] === buffer[idx] && DESCAPE[0] === buffer[idx + 1]) {
           const block = new Uint8Array(binary.buffer, oft, idx - oft + 1);
           blocks.push(block);
           blockSize += block.length;
