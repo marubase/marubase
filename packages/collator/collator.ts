@@ -17,7 +17,7 @@ export class Collator implements CollatorContract {
     return this.coder.decode(binary);
   }
 
-  public encode(value: MetaValueContract | ValueContract): Uint8Array {
+  public encode(value: ValueContract): Uint8Array {
     const buffer = new ArrayBuffer(32);
     const binary = new Uint8Array(buffer, 0, 0);
     const meta = MetaValue.create(value, true);

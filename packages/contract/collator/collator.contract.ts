@@ -4,7 +4,7 @@ import { ValueContract } from "./value.contract";
 export interface CollatorContract {
   decode(binary: Uint8Array): ValueContract;
 
-  encode(value: MetaValueContract | ValueContract): Uint8Array;
+  encode(value: ValueContract): Uint8Array;
 
   order: {
     asc(value: ValueContract): MetaValueContract;
