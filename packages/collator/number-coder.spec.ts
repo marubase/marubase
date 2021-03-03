@@ -14,7 +14,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
     describe("#decode(binary)", () => {
       context("when given -Infinity binary", () => {
         it("should returns -Infinity value", () => {
-          const hex = "08800fffffffffffff";
+          const hex = "0880800fff80ff80ff80ff80ff80ff80";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.equals(-Infinity);
@@ -30,7 +30,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
       context("when given 0 binary", () => {
         it("should returns 0 value", () => {
-          const hex = "090000000000000000";
+          const hex = "09007f007f007f007f007f007f007f007f";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.equals(0);
@@ -46,7 +46,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
       context("when given Infinity binary", () => {
         it("should returns Infinity value", () => {
-          const hex = "097ff0000000000000";
+          const hex = "097f7ff0007f007f007f007f007f007f";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.equals(Infinity);
@@ -54,7 +54,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
       });
       context("when given NaN binary", () => {
         it("should returns NaN value", () => {
-          const hex = "070000000000000000";
+          const hex = "07007f007f007f007f007f007f007f007f";
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
           expect(decoded).to.be.NaN;
@@ -72,7 +72,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "08800fffffffffffff";
+          const encodedHex = "0880800fff80ff80ff80ff80ff80ff80";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
@@ -108,11 +108,11 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "090000000000000000";
+          const encodedHex = "09007f007f007f007f007f007f007f007f";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = encodedHex.padEnd(16 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(32 * 2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
@@ -144,7 +144,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "097ff0000000000000";
+          const encodedHex = "097f7ff0007f007f007f007f007f007f";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
@@ -162,11 +162,11 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 
-          const encodedHex = "070000000000000000";
+          const encodedHex = "07007f007f007f007f007f007f007f007f";
           const encodedBinary = toBuffer(encodedHex);
           expect(encoded).to.deep.equals(encodedBinary);
 
-          const bufferHex = encodedHex.padEnd(16 * 2, asc ? "0" : "f");
+          const bufferHex = encodedHex.padEnd(32 * 2, asc ? "0" : "f");
           const bufferBinary = toBuffer(bufferHex);
           expect(new Uint8Array(encoded.buffer)).to.deep.equals(bufferBinary);
         });
