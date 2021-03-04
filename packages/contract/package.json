@@ -6,6 +6,7 @@
   "types": "./index.d.ts",
   "scripts": {
     "build": "tsc",
+    "clean": "del-cli **/*.d.ts **/*.d.ts.map **/*.js **/*.js.map !node_modules/**/*",
     "lint": "eslint"
   },
   "publishConfig": {

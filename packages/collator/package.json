@@ -6,7 +6,7 @@
   "types": "./index.d.ts",
   "scripts": {
     "build": "tsc",
-    "clean": "rimraf **/*.d.ts **/*.d.ts.map **/*.js **/*.js.map",
+    "clean": "del-cli **/*.d.ts **/*.d.ts.map **/*.js **/*.js.map !node_modules/**/*",
     "lint": "eslint",
     "test": "npm run test:nodejs && npm run test:browser",
     "test:browser": "karma start ../../karma.conf.js",
