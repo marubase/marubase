@@ -12,12 +12,13 @@
     "test:browser": "karma start ../../karma.conf.js",
     "test:nodejs": "nyc mocha index.spec.ts"
   },
-  "dependencies": {
-    "@marubase/contract": "^0.0.0"
-  },
   "devDependencies": {
+    "@marubase/contract": "^0.0.0",
     "bytewise": "^1.1.0",
     "charwise": "^3.0.1"
+  },
+  "peerDependencies": {
+    "@marubase/contract": "0.x"
   },
   "publishConfig": {
     "access": "public"
