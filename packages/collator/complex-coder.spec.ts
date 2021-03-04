@@ -1,4 +1,4 @@
-import { ValueContract } from "@marubase/contract";
+import { Tuple, Value } from "@marubase/contract/collator";
 import { expect } from "chai";
 import { BooleanCoder } from "./boolean-coder";
 import { BufferCoder } from "./buffer-coder";
@@ -28,7 +28,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const binary = toBuffer(hex);
           const decoded = coder.decode(binary);
 
-          const decodedValue: ValueContract = [];
+          const decodedValue: Tuple<Value> = [];
           expect(decoded).to.deep.equals(decodedValue);
         });
       });
@@ -191,7 +191,7 @@ mirrorRun((asc, toBuffer, toMeta) => {
           const buffer = new ArrayBuffer(8);
           const binary = new Uint8Array(buffer, 0, 0);
 
-          const value: ValueContract = [];
+          const value: Tuple<Value> = [];
           const meta = toMeta(value);
           const encoded = coder.encode(binary, meta);
 

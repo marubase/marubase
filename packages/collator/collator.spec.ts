@@ -1,4 +1,4 @@
-import { CollatorContract } from "@marubase/contract";
+import { CollatorContract } from "@marubase/contract/collator";
 import { expect } from "chai";
 import { BooleanCoder } from "./boolean-coder";
 import { BufferCoder } from "./buffer-coder";

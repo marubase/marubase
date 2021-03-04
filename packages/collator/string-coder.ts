@@ -1,4 +1,4 @@
-import { MetaValueContract, ValueContract } from "@marubase/contract";
+import { Meta, Value } from "@marubase/contract/collator";
 import { BaseCoder } from "./base-coder";
 import { CoderInterface } from "./coder.interface";
 import { ComplexCoder } from "./complex-coder";
@@ -17,7 +17,7 @@ export class StringCoder extends BaseCoder implements CoderInterface {
     prefixes.forEach((prefix) => complex.registerPrefix(prefix[0], instance));
   }
 
-  public decode(binary: Uint8Array): ValueContract {
+  public decode(binary: Uint8Array): Value {
     if (binary[0] < 128) {
       const { buffer, byteLength, byteOffset } = binary;
       const escaped = new Uint8Array(buffer, byteOffset + 1, byteLength - 2);
@@ -32,7 +32,7 @@ export class StringCoder extends BaseCoder implements CoderInterface {
     }
   }
 
-  public encode(binary: Uint8Array, meta: MetaValueContract): Uint8Array {
+  public encode(binary: Uint8Array, meta: Meta<Value>): Uint8Array {
     if (meta.asc) {
       const { ASSTART, ASEND } = this.table;
       const content = this.encoder.encode(<string>meta.value);

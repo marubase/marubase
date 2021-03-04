@@ -1,18 +1,13 @@
-import { MetaValueContract, ValueContract } from "@marubase/contract/collator";
+import { Meta, Value } from "@marubase/contract/collator";
 
-export class MetaValue implements MetaValueContract {
-  public static create(
-    value: MetaValueContract | ValueContract,
-    asc: boolean
-  ): MetaValueContract {
-    return !(value instanceof MetaValue)
-      ? new MetaValue(<ValueContract>value, asc)
-      : value;
+export class MetaValue implements Meta<Value> {
+  public static create(value: Value, asc: boolean): Meta<Value> {
+    return !(value instanceof MetaValue) ? new MetaValue(value, asc) : value;
   }
 
   public type: string;
 
-  public constructor(public value: ValueContract, public asc: boolean) {
+  public constructor(public value: Value, public asc: boolean) {
     if (Array.isArray(value)) this.type = "array";
     else if (value instanceof Date) this.type = "date";
     else if (value instanceof Uint8Array) this.type = "buffer";

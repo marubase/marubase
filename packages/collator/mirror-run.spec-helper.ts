@@ -1,4 +1,4 @@
-import { MetaValueContract, ValueContract } from "@marubase/contract";
+import { Meta, Value } from "@marubase/contract/collator";
 import { MetaValue } from "./meta-value";
 
 interface ToBufferFn {
@@ -6,7 +6,7 @@ interface ToBufferFn {
 }
 
 interface ToMetaFn {
-  (value: ValueContract): MetaValueContract;
+  (value: Value): Meta<Value>;
 }
 
 interface TestFn {
@@ -22,7 +22,7 @@ function toBufferFnHelper(asc: boolean): ToBufferFn {
 }
 
 function toMetaFnHelper(asc: boolean): ToMetaFn {
-  return (value: ValueContract): MetaValueContract => new MetaValue(value, asc);
+  return (value: Value): Meta<Value> => new MetaValue(value, asc);
 }
 
 export function mirrorRun(testFn: TestFn): void {

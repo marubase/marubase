@@ -1,8 +1,4 @@
-import {
-  CollatorContract,
-  MetaValueContract,
-  ValueContract,
-} from "@marubase/contract/collator";
+import { CollatorContract, Meta, Value } from "@marubase/contract/collator";
 import { CoderInterface } from "./coder.interface";
 import { MetaValue } from "./meta-value";
 
@@ -13,11 +9,11 @@ export class Collator implements CollatorContract {
 
   public constructor(protected coder: CoderInterface) {}
 
-  public decode(binary: Uint8Array): ValueContract {
+  public decode(binary: Uint8Array): Value {
     return this.coder.decode(binary);
   }
 
-  public encode(value: ValueContract): Uint8Array {
+  public encode(value: Value): Uint8Array {
     const buffer = new ArrayBuffer(32);
     const binary = new Uint8Array(buffer, 0, 0);
     const meta = MetaValue.create(value, true);
@@ -25,11 +21,11 @@ export class Collator implements CollatorContract {
   }
 
   public order = {
-    asc(value: ValueContract): MetaValueContract {
+    asc(value: Value): Meta<Value> {
       return MetaValue.create(value, true);
     },
 
-    desc(value: ValueContract): MetaValueContract {
+    desc(value: Value): Meta<Value> {
       return MetaValue.create(value, false);
     },
   };

@@ -1,4 +1,4 @@
-import { MetaValueContract, ValueContract } from "@marubase/contract/collator";
+import { Dictionary, Meta, Tuple, Value } from "@marubase/contract/collator";
 import { BaseCoder } from "./base-coder";
 import { CoderInterface } from "./coder.interface";
 import { MetaValue } from "./meta-value";
@@ -8,7 +8,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
 
   protected types: { [type: string]: CoderInterface } = {};
 
-  public decode(binary: Uint8Array): ValueContract {
+  public decode(binary: Uint8Array): Value {
     if (this.prefixes[binary[0]])
       return this.prefixes[binary[0]].decode(binary);
 
@@ -21,8 +21,8 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     const { AOSTART, AOCOLON, AOCOMMA, AOEND } = this.table;
     const { DOSTART, DOCOLON, DOCOMMA, DOEND } = this.table;
 
-    const data: ValueContract[] = [];
-    const cursorStack: ValueContract[] = [data];
+    const data: Value[] = [];
+    const cursorStack: Value[] = [data];
     const binaryLength = binary.length;
     for (let index = 0, offset = 0, key = ""; index < binaryLength; index++) {
       const cursor = cursorStack[cursorStack.length - 1];
@@ -48,9 +48,8 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
           cursor.push([]);
           cursorStack.push(cursor[cursor.length - 1]);
         } else {
-          const newCursor = <{ [key: string]: ValueContract }>cursor;
-          newCursor[key] = [];
-          cursorStack.push(newCursor[key]);
+          (<Dictionary<Value>>cursor)[key] = [];
+          cursorStack.push((<Dictionary<Value>>cursor)[key]);
         }
         offset = index + 1;
         continue;
@@ -66,7 +65,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
-          (<ValueContract[]>cursor).push(decoded);
+          (<Tuple<Value>>cursor).push(decoded);
         }
         offset = index + 1;
         continue;
@@ -82,7 +81,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
-          (<ValueContract[]>cursor).push(decoded);
+          (<Tuple<Value>>cursor).push(decoded);
         }
         cursorStack.pop();
         offset = index + 1;
@@ -101,9 +100,8 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
           cursor.push({});
           cursorStack.push(cursor[cursor.length - 1]);
         } else {
-          const newCursor = <{ [key: string]: ValueContract }>cursor;
-          newCursor[key] = {};
-          cursorStack.push(newCursor[key]);
+          (<Dictionary<Value>>cursor)[key] = {};
+          cursorStack.push((<Dictionary<Value>>cursor)[key]);
         }
         offset = index + 1;
         continue;
@@ -132,7 +130,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
-          (<{ [key: string]: ValueContract }>cursor)[key] = decoded;
+          (<Dictionary<Value>>cursor)[key] = decoded;
         }
         offset = index + 1;
         continue;
@@ -148,7 +146,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
         const encoded = new Uint8Array(binary.buffer, offset, index - offset);
         if (encoded.length > 0) {
           const decoded = this.decode(encoded);
-          (<{ [key: string]: ValueContract }>cursor)[key] = decoded;
+          (<Dictionary<Value>>cursor)[key] = decoded;
         }
         cursorStack.pop();
         offset = index + 1;
@@ -158,7 +156,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     return data[0];
   }
 
-  public encode(binary: Uint8Array, value: MetaValueContract): Uint8Array {
+  public encode(binary: Uint8Array, value: Meta<Value>): Uint8Array {
     if (this.types[value.type])
       return this.types[value.type].encode(binary, value);
     if (value.type === "array") return this.encodeArray(binary, value);
@@ -182,17 +180,14 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     return this;
   }
 
-  protected encodeArray(
-    binary: Uint8Array,
-    meta: MetaValueContract
-  ): Uint8Array {
+  protected encodeArray(binary: Uint8Array, meta: Meta<Value>): Uint8Array {
     if (meta.asc) {
       const { AASTART, AACOMMA, AAEND } = this.table;
-      const itemLength = (<ValueContract[]>meta.value).length;
+      const itemLength = (<Tuple<Value>>meta.value).length;
 
       let encoded = this.append(binary, AASTART);
       for (let index = 0; index < itemLength; index++) {
-        const item = (<ValueContract[]>meta.value)[index];
+        const item = (<Tuple<Value>>meta.value)[index];
         const metaItem = MetaValue.create(item, meta.asc);
         encoded = this.encode(encoded, metaItem);
         if (index < itemLength - 1) encoded = this.append(encoded, AACOMMA);
@@ -201,11 +196,11 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
       return encoded;
     } else {
       const { DASTART, DACOMMA, DAEND } = this.table;
-      const itemLength = (<ValueContract[]>meta.value).length;
+      const itemLength = (<Tuple<Value>>meta.value).length;
 
       let encoded = this.append(binary, DASTART);
       for (let index = 0; index < itemLength; index++) {
-        const item = (<ValueContract[]>meta.value)[index];
+        const item = (<Tuple<Value>>meta.value)[index];
         const metaItem = MetaValue.create(item, meta.asc);
         encoded = this.encode(encoded, metaItem);
         if (index < itemLength - 1) encoded = this.append(encoded, DACOMMA);
@@ -215,10 +210,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     }
   }
 
-  protected encodeNull(
-    binary: Uint8Array,
-    meta: MetaValueContract
-  ): Uint8Array {
+  protected encodeNull(binary: Uint8Array, meta: Meta<Value>): Uint8Array {
     if (meta.asc) {
       const { ANULL } = this.table;
       return this.append(binary, ANULL);
@@ -228,13 +220,10 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     }
   }
 
-  protected encodeObject(
-    binary: Uint8Array,
-    meta: MetaValueContract
-  ): Uint8Array {
+  protected encodeObject(binary: Uint8Array, meta: Meta<Value>): Uint8Array {
     if (meta.asc) {
       const { AOSTART, AOCOLON, AOCOMMA, AOEND } = this.table;
-      const items = <{ [key: string]: ValueContract }>meta.value;
+      const items = <Dictionary<Value>>meta.value;
       const itemEntries = Object.entries(items);
       const itemLength = itemEntries.length;
 
@@ -252,7 +241,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
       return encoded;
     } else {
       const { DOSTART, DOCOLON, DOCOMMA, DOEND } = this.table;
-      const items = <{ [key: string]: ValueContract }>meta.value;
+      const items = <Dictionary<Value>>meta.value;
       const itemEntries = Object.entries(items);
       const itemLength = itemEntries.length;
 
@@ -271,10 +260,7 @@ export class ComplexCoder extends BaseCoder implements CoderInterface {
     }
   }
 
-  protected encodeUndefined(
-    binary: Uint8Array,
-    meta: MetaValueContract
-  ): Uint8Array {
+  protected encodeUndefined(binary: Uint8Array, meta: Meta<Value>): Uint8Array {
     if (meta.asc) {
       const { AUNDEF } = this.table;
       return this.append(binary, AUNDEF);
