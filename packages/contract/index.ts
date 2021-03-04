@@ -1,1 +1,1 @@
-export * from "./collator";
+export * as collator from "./collator";

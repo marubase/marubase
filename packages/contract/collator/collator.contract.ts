@@ -1,14 +1,13 @@
-import { MetaValueContract } from "./meta-value.contract";
-import { ValueContract } from "./value.contract";
+import { Meta, Value } from "./value.contract";
 
 export interface CollatorContract {
-  decode(binary: Uint8Array): ValueContract;
+  decode(binary: Uint8Array): Value;
 
-  encode(value: ValueContract): Uint8Array;
+  encode(value: Value): Uint8Array;
 
   order: {
-    asc(value: ValueContract): MetaValueContract;
+    asc(value: Value): Meta<Value>;
 
-    desc(value: ValueContract): MetaValueContract;
+    desc(value: Value): Meta<Value>;
   };
 }
